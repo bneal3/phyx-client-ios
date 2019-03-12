@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="876" id="KGk-i7-Jjw" customClass="MerchandizeCell" customModule="Camp" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="459.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Merchandize" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oE1-Qd-4zL">
+                        <rect key="frame" x="23" y="26" width="274" height="23.5"/>
+                        <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Get bonuses from companies around" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fT5-d1-uAt">
+                        <rect key="frame" x="23" y="53" width="221" height="20.5"/>
+                        <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="15"/>
+                        <color key="textColor" red="0.66274509800000003" green="0.66274509800000003" blue="0.66274509800000003" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z9e-0r-r0g">
+                        <rect key="frame" x="252" y="50" width="57" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="Z9e-0r-r0g" secondAttribute="height" multiplier="19:10" id="Qwh-xW-4Uo"/>
+                            <constraint firstAttribute="width" constant="57" id="whe-5o-2TW"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="15"/>
+                        <state key="normal" title="See All">
+                            <color key="titleColor" red="0.96470588239999999" green="0.40784313729999999" blue="0.37254901959999998" alpha="1" colorSpace="calibratedRGB"/>
+                        </state>
+                    </button>
+                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="CeB-GI-IIk">
+                        <rect key="frame" x="10" y="92" width="300" height="357"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Bfb-Az-FMY">
+                            <size key="itemSize" width="50" height="50"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                    </collectionView>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstAttribute="trailingMargin" secondItem="Z9e-0r-r0g" secondAttribute="trailing" constant="-5" id="EeG-x7-uMY"/>
+                    <constraint firstItem="CeB-GI-IIk" firstAttribute="top" secondItem="Z9e-0r-r0g" secondAttribute="bottom" constant="12" id="G5N-sh-Imq"/>
+                    <constraint firstItem="Z9e-0r-r0g" firstAttribute="leading" secondItem="fT5-d1-uAt" secondAttribute="trailing" constant="8" id="P1R-t5-Ujl"/>
+                    <constraint firstItem="fT5-d1-uAt" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="7" id="QBX-f8-ZTd"/>
+                    <constraint firstItem="CeB-GI-IIk" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="QrS-Zo-whM"/>
+                    <constraint firstItem="oE1-Qd-4zL" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="15" id="Ybp-iE-peT"/>
+                    <constraint firstAttribute="bottom" secondItem="CeB-GI-IIk" secondAttribute="bottom" constant="10" id="aGr-jE-VWD"/>
+                    <constraint firstItem="oE1-Qd-4zL" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="7" id="gxt-so-yfC"/>
+                    <constraint firstItem="Z9e-0r-r0g" firstAttribute="top" secondItem="oE1-Qd-4zL" secondAttribute="bottom" constant="0.5" id="ieZ-RJ-EQg"/>
+                    <constraint firstItem="fT5-d1-uAt" firstAttribute="top" secondItem="oE1-Qd-4zL" secondAttribute="bottom" constant="3" id="lBM-Os-2b6"/>
+                    <constraint firstAttribute="trailing" secondItem="CeB-GI-IIk" secondAttribute="trailing" constant="10" id="lGD-In-yJ5"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="oE1-Qd-4zL" secondAttribute="trailing" constant="7" id="umL-YQ-RpP"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="btnAll" destination="Z9e-0r-r0g" id="Aeg-He-Xfu"/>
+                <outlet property="collectionView" destination="CeB-GI-IIk" id="u30-YC-wKV"/>
+            </connections>
+            <point key="canvasLocation" x="-373" y="249"/>
+        </tableViewCell>
+    </objects>
+</document>
