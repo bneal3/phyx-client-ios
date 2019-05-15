@@ -62,7 +62,7 @@ class LocationManager: NSObject,CLLocationManagerDelegate {
     var keepLastKnownLocation:Bool = true
     var hasLastKnownLocation:Bool = false
     
-    var autoUpdate:Bool = false
+    var autoUpdate:Bool = true
     
     var showVerboseMessage = false
     
@@ -82,7 +82,8 @@ class LocationManager: NSObject,CLLocationManagerDelegate {
         super.init()
         
         if(!autoUpdate){
-            autoUpdate = !CLLocationManager.significantLocationChangeMonitoringAvailable()
+            // check-in message should accurate, so we do not use significant update
+            autoUpdate = true //!CLLocationManager.significantLocationChangeMonitoringAvailable()
         }
         
     }

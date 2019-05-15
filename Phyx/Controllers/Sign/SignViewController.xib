@@ -109,7 +109,7 @@
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <textInputTraits key="textInputTraits" returnKeyType="next" secureTextEntry="YES"/>
                                                         </textField>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Check" translatesAutoresizingMaskIntoConstraints="NO" id="j5S-oR-FHd">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="check-green" translatesAutoresizingMaskIntoConstraints="NO" id="j5S-oR-FHd">
                                                             <rect key="frame" x="289" y="32.666666666666686" width="12" height="8"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="8" id="OOq-Cp-W7G"/>
@@ -151,7 +151,7 @@
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <textInputTraits key="textInputTraits" returnKeyType="next" secureTextEntry="YES" smartDashesType="yes" smartInsertDeleteType="no"/>
                                                         </textField>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Check" translatesAutoresizingMaskIntoConstraints="NO" id="jQY-ya-qHT">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="check-green" translatesAutoresizingMaskIntoConstraints="NO" id="jQY-ya-qHT">
                                                             <rect key="frame" x="289" y="32.666666666666629" width="12" height="8"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="12" id="bWq-8B-HIv"/>
@@ -330,6 +330,6 @@
         <image name="AvatarPlaceholder" width="256" height="256"/>
         <image name="BackBlack" width="24" height="11"/>
         <image name="BackgroundInput" width="275" height="41"/>
-        <image name="Check" width="12" height="8"/>
+        <image name="check-green" width="36" height="36"/>
     </resources>
 </document>

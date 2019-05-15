@@ -24,15 +24,18 @@ class PurchaseSuccessViewController: UIViewController {
     
     private func initialize() {
         
-        
+        self.title = "Appointment Confirmed"
+        self.navigationItem.hidesBackButton = true
         
     }
     
     @IBAction func clickedGotIt(_ sender: Any) {
         
-        self.dismiss(animated: false) {
-            self.delegate.modalDismissed()
-        }
+        self.navigationController?.popToRootViewController(animated: true)
+        
+//        self.dismiss(animated: false) {
+//            self.delegate.modalDismissed()
+//        }
         
     }
     

@@ -97,6 +97,23 @@ extension Date {
 }
 
 extension UIView {
+    
+    func roundCorners(corners: UIRectCorner, radius: CGFloat) {
+        let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        let mask = CAShapeLayer()
+        mask.path = path.cgPath
+        layer.mask = mask
+    }
+    
+    func pinToTop(ofView view: UIView) {
+        translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            self.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            view.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            self.topAnchor.constraint(equalTo: view.topAnchor),
+            ])
+    }
 
     func safeTopAnchor() -> NSLayoutYAxisAnchor {
         if #available(iOS 11.0, *) {
@@ -160,6 +177,18 @@ extension UIView {
     }
 
 }
+
+struct Color {
+    static let background = UIColor(red: 0.47, green: 0.8, blue: 0.77, alpha: 1.0)
+    static let popupBackground = UIColor.white
+    static let primaryAction = UIColor(red: 0.14, green: 0.6, blue: 0.55, alpha: 1)
+    static let applePayBackground = UIColor.black
+    static let hairlineColor = UIColor.black.withAlphaComponent(0.1)
+    static let descriptionFont = UIColor(red: 0.48, green: 0.48, blue: 0.48, alpha: 1)
+    static let navigationBarTintColor = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 1)
+    static let heading = UIColor(red: 0.14, green: 0.6, blue: 0.55, alpha: 1)
+}
+
 
 extension UIColor {
 
@@ -282,5 +311,12 @@ extension Float {
         return self.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", self) : String(self)
     }
     
+}
+
+extension Double {
+    func rounded(toPlaces places: Int) -> Double {
+        let divisor = pow(10.0, Double(places))
+        return (self * divisor).rounded() / divisor
+    }
 }
 

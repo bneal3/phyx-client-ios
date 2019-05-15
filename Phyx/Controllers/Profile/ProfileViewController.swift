@@ -313,19 +313,6 @@ class ProfileViewController: UIViewController {
         
     }
     
-    private func getSearchedUser(term: String) {
-        
-        ApiService.shared().searchForUsers(term: term, onSuccess: {(results) in
-           
-            self.users = results
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-            
-        }, onFailure: { result in })
-        
-    }
-    
     @objc func clickedCoins() {
         
         let statisticsVC = StatisticsViewController(nibName: "StatisticsViewController", bundle: nil)
@@ -427,7 +414,6 @@ extension ProfileViewController : UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let newString = NSString(string: textField.text!).replacingCharacters(in: range, with: string)
-        getSearchedUser(term: newString)
         return true
     }
     

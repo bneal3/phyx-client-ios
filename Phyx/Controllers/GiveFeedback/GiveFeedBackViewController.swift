@@ -36,7 +36,7 @@ class GiveFeedBackViewController: UIViewController {
 
     private func initialze() {
         
-        self.title = "Give Us Feedback"
+        self.title = "Support"
         btnBack = UIBarButtonItem(image: UIImage(named: "BackBlack"), style: .plain, target: self, action: #selector(self.clickedBack))
         self.navigationItem.leftBarButtonItem = btnBack
         self.navigationItem.hidesBackButton = true
@@ -59,8 +59,7 @@ class GiveFeedBackViewController: UIViewController {
     
     @objc func clickedBack() {
         
-        self.navigationController?.dismiss(animated: true, completion: nil)
-        
+        self.navigationController?.popViewController(animated: true)
     }
     
     @IBAction func clickedSend(_ sender: Any) {
@@ -69,7 +68,7 @@ class GiveFeedBackViewController: UIViewController {
 
             ApiService.shared().sendFeedback(subject: subject, feedback: feedback, onSuccess: { result in
                 
-                let alert = UIAlertController(title: "Feedback", message: "Thanks for leaving feedback. Your feedback was sent successfully.", preferredStyle: .alert)
+                let alert = UIAlertController(title: "Feedback", message: "Thanks for your inquiry, we will get back to you shortly.", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { action in
                     self.navigationController?.dismiss(animated: true, completion: nil)
                 }))

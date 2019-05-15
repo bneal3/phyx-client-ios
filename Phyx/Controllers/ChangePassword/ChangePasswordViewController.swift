@@ -58,7 +58,7 @@ class ChangePasswordViewController: UIViewController {
     
     @objc func clickedBack() {
         
-        self.navigationController?.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
         
     }
     

@@ -132,23 +132,25 @@ class ApiService {
         
     }
     
-    func getUsers(path: String, onSuccess success: @escaping(_ result: [User]) -> Void, onFailure failure: @escaping(_ result: Any) -> Void) {
+    // Contractors
+    
+    func getContractors(path: String, onSuccess success: @escaping(_ result: [Contractor]) -> Void, onFailure failure: @escaping(_ result: Any) -> Void) {
         
         var request: HTTPRequest = HTTPRequest()
         request.method = HTTPMethod.get
-        request.path = "/users?" + path
+        request.path = "/contractors?" + path
         
         REQWrapper.shared.send(request: request, onSuccess: { response in
             
-            if let json = response.object["users"] as? [[String: Any]] {
+            if let json = response.object["contractors"] as? [[String: Any]] {
                 
-                var users = [User]()
-                for userData in json {
-                    let user = User(userData: userData)
-                    users.append(user)
+                var contractors = [Contractor]()
+                for contractorData in json {
+                    let contractor = Contractor(contractorData: contractorData)
+                    contractors.append(contractor)
                 }
                 
-                success(users)
+                success(contractors)
                 
             } else {
                 
@@ -160,18 +162,21 @@ class ApiService {
         
     }
     
-    func getUser(id: String, onSuccess success: @escaping(_ result: User) -> Void, onFailure failure: @escaping(_ result: Any) -> Void) {
+    func getContractor(id: String, onSuccess success: @escaping(_ result: Contractor) -> Void, onFailure failure: @escaping(_ result: Any) -> Void) {
         
         var request: HTTPRequest = HTTPRequest()
         request.method = HTTPMethod.get
-        request.path = "/users/id/" + id
+        request.path = "/contractors/id/" + id
         
         REQWrapper.shared.send(request: request, onSuccess: { response in
             
             if response.object.count > 0 {
                 
-                let user = User(userData: response.object)
-                success(user)
+                let contractor = Contractor(contractorData: response.object)
+                
+                RealmService.shared.createIfNotExists(contractor)
+                
+                success(contractor)
                 
             } else {
                 
@@ -183,33 +188,7 @@ class ApiService {
         
     }
     
-    func searchForUsers(term: String, onSuccess success: @escaping(_ result: [User]) -> Void, onFailure failure: @escaping(_ result: Any) -> Void) {
-        
-        var request: HTTPRequest = HTTPRequest()
-        request.method = HTTPMethod.get
-        request.path = "/users/search?method=phone&term=" + term
-        
-        REQWrapper.shared.send(request: request, onSuccess: { response in
-            
-            if let json = response.object["users"] as? [[String: Any]] {
-                
-                var users = [User]()
-                for userData in json {
-                    let user = User(userData: userData)
-                    users.append(user)
-                }
-                
-                success(users)
-                
-            } else {
-                
-                failure(response)
-                
-            }
-            
-        }, onError: failure)
-        
-    }
+    // Profile
     
     func changePassword(oldPassword: String, newPassword: String, onSuccess success: @escaping(_ result: Response) -> Void, onFailure failure: @escaping(_ error: Any) -> Void) {
         
@@ -284,6 +263,125 @@ class ApiService {
         
     }
     
+    // Appointments
+    
+    func postAppointment(service: Int, meetingTime: Int64, location: String, length: Int?, notes: String, amount: Int, chargeId: String, onSuccess success: @escaping(_ result: Appointment) -> Void, onFailure failure: @escaping(_ error: Any) -> Void) {
+        
+        var parameters = [
+            "service": service,
+            "meetingTime": meetingTime,
+            "location": location,
+            "notes": notes,
+            "amount": amount,
+            "chargeId": chargeId
+        ] as [String : Any]
+        
+        if let length = length {
+            parameters["length"] = length
+        }
+        
+        var request: HTTPRequest = HTTPRequest()
+        request.method = HTTPMethod.post
+        request.path = "/appointments"
+        request.parameters = parameters
+        
+        REQWrapper.shared.send(request: request, onSuccess: { response in
+            
+            let appointment = Appointment(appointmentData: response.object)
+            
+            RealmService.shared.createIfNotExists(appointment)
+            PNWrapper.shared().client.subscribeToChannels([appointment.id], withPresence: false)
+            
+            success(appointment)
+            
+        }, onError: failure)
+        
+    }
+    
+    func getAppointment(id: String, onSuccess success: @escaping(_ result: Appointment) -> Void, onFailure failure: @escaping(_ error: Any) -> Void) {
+        
+        var request: HTTPRequest = HTTPRequest()
+        request.method = HTTPMethod.get
+        request.path = "/appointments/id/" + id
+        
+        REQWrapper.shared.send(request: request, onSuccess: { response in
+            
+            let appointment = Appointment(appointmentData: response.object)
+            
+            RealmService.shared.createIfNotExists(appointment)
+            PNWrapper.shared().client.subscribeToChannels([appointment.id], withPresence: false)
+            
+            success(appointment)
+            
+        }, onError: failure)
+        
+    }
+    
+    func getAppointments(onSuccess success: @escaping(_ result: [Appointment]) -> Void, onFailure failure: @escaping(_ error: Any) -> Void) {
+        
+        var request: HTTPRequest = HTTPRequest()
+        request.method = HTTPMethod.get
+        request.path = "/appointments/client"
+        
+        REQWrapper.shared.send(request: request, onSuccess: { response in
+            
+            if let json = response.object["appointments"] as? [[String: Any]] {
+                
+                var appointments = [Appointment]()
+                for appointmentData in json {
+                    let appointment = Appointment(appointmentData: appointmentData)
+                    
+                    RealmService.shared.createIfNotExists(appointment)
+                    PNWrapper.shared().client.subscribeToChannels([appointment.id], withPresence: false)
+                    
+                    appointments.append(appointment)
+                }
+                
+                success(appointments)
+                
+            } else {
+                
+                failure(response)
+                
+            }
+            
+        }, onError: failure)
+        
+    }
+    
+    func patchAppointment(id: String, service: Int, meetingTime: Int64, status: Int, location: String, length: Int?, notes: String, rating: Int?, onSuccess success: @escaping(_ result: Appointment) -> Void, onFailure failure: @escaping(_ error: Any) -> Void) {
+        
+        var parameters = [
+            "service": service,
+            "meetingTime": meetingTime,
+            "status": status,
+            "location": location,
+            "notes": notes,
+            "rating": rating
+        ] as [String : Any]
+        
+        if let length = length {
+            parameters["length"] = length
+        }
+        
+        var request: HTTPRequest = HTTPRequest()
+        request.method = HTTPMethod.patch
+        request.path = "/appointments/id/" + id + "/client"
+        request.parameters = parameters
+        
+        REQWrapper.shared.send(request: request, onSuccess: { response in
+            
+            let appointment = Appointment(appointmentData: response.object)
+            
+            RealmService.shared.createIfNotExists(appointment)
+            PNWrapper.shared().client.subscribeToChannels([appointment.id], withPresence: false)
+            
+            success(appointment)
+            
+        }, onError: failure)
+        
+    }
+    
     // Settings
     
     func sendFeedback(subject: String, feedback: String, onSuccess success: @escaping (_ result: Response) -> Void, onFailure failure: @escaping (_ error: Any) -> Void) {
@@ -319,7 +417,65 @@ class ApiService {
         
     }
     
-    /* Users api end */
+    // Payments
+    
+//    func createKey(apiVersion: String, onSuccess success: @escaping (_ result: Response) -> Void, onFailure failure: @escaping (_ error: Any) -> Void) {
+//        
+//        var request: HTTPRequest = HTTPRequest()
+//        request.method = HTTPMethod.post
+//        request.path = "/payments/key?api_version=" + apiVersion
+//        
+//        REQWrapper.shared.send(request: request, onSuccess: { response in
+//            success(response)
+//            
+//        }, onError: failure)
+//        
+//    }
+    
+    func charge(token: String, amount: Int, category: String, meetingTime: Int64, appointmentId: String?,  onSuccess success: @escaping (_ result: Response) -> Void, onFailure failure: @escaping (_ error: Any) -> Void) {
+        
+        let parameters = [
+            "token": token,
+            "amount": amount,
+            "category": category,
+            "meetingTime": meetingTime,
+            "appointmentId": appointmentId
+        ] as [String : Any]
+        
+        var request: HTTPRequest = HTTPRequest()
+        request.method = HTTPMethod.post
+        request.path = "/payments/appointment"
+        request.parameters = parameters
+        
+        REQWrapper.shared.send(request: request, onSuccess: { response in
+            
+            success(response)
+            
+        }, onError: failure)
+        
+    }
+    
+    func tip(token: String, amount: Int, meetingTime: Int64, appointmentId: String, onSuccess success: @escaping (_ result: Response) -> Void, onFailure failure: @escaping (_ error: Any) -> Void) {
+        
+        let parameters = [
+            "token": token,
+            "amount": amount,
+            "meetingTime": meetingTime,
+            "appointmentId": appointmentId
+        ] as [String : Any]
+        
+        var request: HTTPRequest = HTTPRequest()
+        request.method = HTTPMethod.post
+        request.path = "/payments/tip"
+        request.parameters = parameters
+        
+        REQWrapper.shared.send(request: request, onSuccess: { response in
+            
+            success(response)
+            
+        }, onError: failure)
+        
+    }
     
     
     class func shared() -> ApiService {

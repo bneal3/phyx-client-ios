@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="GiveFeedBackViewController" customModule="Camp" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="GiveFeedBackViewController" customModule="Phyx" customModuleProvider="target">
             <connections>
                 <outlet property="feedbackField" destination="aer-Pv-FAI" id="Oeh-AP-Un0"/>
                 <outlet property="feedbackView" destination="OD8-hx-YQO" id="CrK-eG-cHt"/>
@@ -39,7 +38,7 @@
                                             <rect key="frame" x="19" y="35" width="337" height="60"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BackgroundInput" translatesAutoresizingMaskIntoConstraints="NO" id="H8l-OX-hLL">
-                                                    <rect key="frame" x="0.0" y="0.0" width="337" height="60.333333333333336"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="337" height="60"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Subject" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sIR-KD-VVx">
                                                     <rect key="frame" x="0.0" y="0.0" width="50" height="21"/>
@@ -93,7 +92,9 @@
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="Zbj-yX-po5" secondAttribute="height" multiplier="303:70" id="Vkn-Vj-4sc"/>
                                             </constraints>
-                                            <state key="normal" backgroundImage="SendButton"/>
+                                            <state key="normal" title="Send">
+                                                <color key="titleColor" red="0.30162730809999999" green="0.5936079621" blue="0.95908254380000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </state>
                                             <connections>
                                                 <action selector="clickedSend:" destination="-1" eventType="touchUpInside" id="1go-Si-SWB"/>
                                             </connections>
@@ -145,6 +146,5 @@
     </objects>
     <resources>
         <image name="BackgroundInput" width="275" height="41"/>
-        <image name="SendButton" width="303" height="70"/>
     </resources>
 </document>

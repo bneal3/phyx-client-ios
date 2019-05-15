@@ -69,10 +69,10 @@ class LoginViewController: UIViewController {
                 
             SVProgressHUD.dismiss()
         
-            let locationManager = LocationManager.sharedInstance
-            locationManager.showVerboseMessage = true
-            locationManager.autoUpdate = false
-            locationManager.startUpdatingLocation()
+//            let locationManager = LocationManager.sharedInstance
+//            locationManager.showVerboseMessage = true
+//            locationManager.autoUpdate = false
+//            locationManager.startUpdatingLocation()
             
             // FLOW: Go to main screen
             let appDelegate = UIApplication.shared.delegate as! AppDelegate

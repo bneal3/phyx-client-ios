@@ -8,7 +8,7 @@
 
 import Foundation
 import FirebaseStorage
-
+import Alamofire
 import SDWebImage
 
 let STORAGE_REF = Storage.storage().reference()
@@ -59,6 +59,31 @@ class FSWrapper {
                     })
                 }
             })
+        }
+    }
+    
+    private func getSaveFileUrl() -> URL {
+        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let filName = "video_" + String.randomString(length: 6) + ".mov"
+        let fileURL = documentsURL.appendingPathComponent("videos/\(filName)")
+        return fileURL;
+    }
+    
+    func download(url: URL, _ completion: @escaping (Bool, URL?) -> ()) {
+        let destination: DownloadRequest.DownloadFileDestination = { _, _ in
+            return (self.getSaveFileUrl(), [.removePreviousFile, .createIntermediateDirectories])
+        }
+
+        Alamofire.download(url, to: destination)
+            .response { (response) in
+
+                if let destinationUrl = response.destinationURL {
+                    print("destinationUrl \(destinationUrl.absoluteURL)")
+                    
+                    completion(true, destinationUrl)
+                } else {
+                    completion(false, nil)
+                }
         }
     }
 }

@@ -17,16 +17,21 @@ import RealmSwift
     dynamic var phone: String = ""
     dynamic var birthday: Int64 = 0
     dynamic var avatar: String? = nil
-    dynamic var billing: String? = nil
-    dynamic var service: String? = nil
+    
+    dynamic var rating: Float? = nil
     
     var isSelected = false
+    
     
     convenience init(userData: [String: Any]){
         self.init()
         
         if let id = userData["_id"] as? String {
             self.id = id
+        }
+        
+        if let name = userData["name"] as? String {
+            self.name = name
         }
         
         if let identifiers = userData["identifiers"] as? [[String: Any]] {
@@ -47,10 +52,10 @@ import RealmSwift
             self.avatar = avi
         }
         
-        if let name = userData["name"] as? String, name != "" {
-            self.name = name
+        if let rating = userData["rating"] as? Float, rating > 0 {
+            self.rating = rating
         }
-        
+
     }
     
     override static func primaryKey() -> String? {

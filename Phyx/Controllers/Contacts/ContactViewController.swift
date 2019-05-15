@@ -15,16 +15,21 @@ import Realm
 
 class ContactViewController: UIViewController {
 
-    var btnMenu : UIBarButtonItem!
+    var btnMenu: UIBarButtonItem!
+    var btnBack: UIBarButtonItem!
     
-    var serviceNames = ["Chiropractor", "Massage", "Physical Therapy", "Acupuncture"]
-    var services = [Service]()
+    var services = SERVICES
+    var isAdditional = false
+    
+    var userToken: NotificationToken? = nil
+    var contractorToken: NotificationToken? = nil
+    var appointmentToken: NotificationToken? = nil
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var tableViewLeading: NSLayoutConstraint!
     @IBOutlet weak var tableViewTrailing: NSLayoutConstraint!
     
-    var menuOptions = ["Appointment History", "Payment History", "Account", "Support"]
+    var menuOptions = ["My Appointments", "Account", "Change Password", "Support"]
     
     @IBOutlet weak var menuView: UIView!
     @IBOutlet weak var userAvatar: UIImageView!
@@ -56,6 +61,8 @@ class ContactViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
+        initializePubNub()
+        initializeListeners()
         initialize()
 //        if UserData.shared().isFirstTimeUsage(screen: "services") {
 //            initiateTutorial()
@@ -65,6 +72,7 @@ class ContactViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.tabBarController?.navigationController?.isNavigationBarHidden = true
+        
         
     }
 
@@ -87,23 +95,55 @@ class ContactViewController: UIViewController {
         
         btnMenu = UIBarButtonItem(image: UIImage(named: "menu"), style: .plain, target: self, action: #selector(self.clickedMenu))
         
-        self.navigationItem.leftBarButtonItem = btnMenu
+        btnBack = UIBarButtonItem(image: UIImage(named: "BackBlack"), style: .plain, target: self, action: #selector(self.clickedBack))
+        
+        if !isAdditional {
+            self.navigationItem.leftBarButtonItem = btnMenu
+        } else {
+            self.navigationItem.leftBarButtonItem = btnBack
+        }
         
         tutorialPositions = [
             CGPoint(x: tableView.center.x, y: tableView.center.y - 100),
             CGPoint(x: self.view.frame.width - 32, y: barHeight + navHeight)
         ]
         
-        populateServices()
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(respondToSwipeGesture(_:)))
+        swipeRight.direction = UISwipeGestureRecognizer.Direction.right
+        self.view.addGestureRecognizer(swipeRight)
+        
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(respondToSwipeGesture(_:)))
+        swipeDown.direction = UISwipeGestureRecognizer.Direction.left
+        self.view.addGestureRecognizer(swipeDown)
+        
         populateMenu()
+        
+        let locationManager = LocationManager.sharedInstance
+        locationManager.showVerboseMessage = true
+        locationManager.startUpdatingLocation()
     }
     
-    func populateServices() {
-        for name in serviceNames {
-            let service = Service(serviceData: ["name": name, "photo": "phyx-logo", "description": ""])
-            services.append(service)
+    deinit {
+        userToken?.invalidate()
+        contractorToken?.invalidate()
+        appointmentToken?.invalidate()
+    }
+    
+    @objc func respondToSwipeGesture(_ sender: UISwipeGestureRecognizer) {
+        if let swipeGesture = sender as? UISwipeGestureRecognizer {
+            switch swipeGesture.direction {
+            case UISwipeGestureRecognizer.Direction.right:
+                if !menuVisible {
+                    clickedMenu()
+                }
+            case UISwipeGestureRecognizer.Direction.left:
+                if menuVisible {
+                    clickedMenu()
+                }
+            default:
+                break
+            }
         }
-        tableView.reloadData()
     }
     
     func populateMenu() {
@@ -226,6 +266,10 @@ class ContactViewController: UIViewController {
             self.view.layoutIfNeeded()
         }
     }
+    
+    @objc func clickedBack() {
+        self.navigationController?.popViewController(animated: true)
+    }
 
     @IBAction func logOutTapped(_ sender: Any) {
         let alert = UIAlertController(title: "Logout", message: "Are you sure?", preferredStyle: .alert)
@@ -289,7 +333,6 @@ extension ContactViewController : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == self.tableView {
-
             let cell = tableView.dequeueReusableCell(withIdentifier: CampCell.identifier, for: indexPath) as! CampCell
             
             cell.setCell(service: services[indexPath.row])
@@ -297,7 +340,6 @@ extension ContactViewController : UITableViewDelegate, UITableViewDataSource {
             cell.selectionStyle = .none
             
             return cell
-            
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: SettingCell.identifier, for: indexPath) as! SettingCell
             
@@ -307,52 +349,276 @@ extension ContactViewController : UITableViewDelegate, UITableViewDataSource {
             
             return cell
         }
-    
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == self.tableView {
-            
+            if services.count == SERVICES.count {
+                if indexPath.row != 2 {
+                    let serviceVC = ServiceDetailsViewController()
+                    serviceVC.details = services[indexPath.row]
+                    self.navigationController?.pushViewController(serviceVC, animated: true)
+                } else {
+                    let serviceVC = ContactViewController(nibName: "ContactViewController", bundle: nil)
+                    serviceVC.title = "Massages"
+                    serviceVC.services = MASSAGES
+                    serviceVC.isAdditional = true
+                    self.navigationController?.pushViewController(serviceVC, animated: true)
+                }
+            } else {
+                let serviceVC = ServiceDetailsViewController()
+                serviceVC.details = services[indexPath.row]
+                self.navigationController?.pushViewController(serviceVC, animated: true)
+            }
         } else {
+            
+            if indexPath.row == 0 {
+                let appointmentListVC = AppointmentListViewController()
+                self.navigationController?.pushViewController(appointmentListVC, animated: true)
+            }
+//            else if indexPath.row == 1 {
+//                // TODO: Open payment methods list
+//            }
+            else if indexPath.row == 1 {
+                let editProfileVC = EditProfileViewController()
+                self.navigationController?.pushViewController(editProfileVC, animated: true)
+            } else if indexPath.row == 2 {
+                let changePasswordVC = ChangePasswordViewController()
+                self.navigationController?.pushViewController(changePasswordVC, animated: true)
+            } else if indexPath.row == 3 {
+                let giveFeedbackVC = GiveFeedBackViewController()
+                self.navigationController?.pushViewController(giveFeedbackVC, animated: true)
+            }
             
         }
     }
     
-    func getPassedTime(date: Date) -> String {
+    //func getPassedTime(date: Date) -> String {
+    //
+    //    let MIN: Double = 60 * 1000
+    //    let HOUR: Double = MIN * 60
+    //    let DAY: Double = HOUR * 24
+    //    let WEEK: Double = DAY * 7
+    //
+    //    let dateFormatter = DateFormatter()
+    //    dateFormatter.timeZone = TimeZone(abbreviation: TimeZone.current.abbreviation()!)
+    //
+    //    let dateInMillis = date.toMillis()
+    //    let now = Date().toMillis()
+    //    let timestamp = Double(now! - dateInMillis!)
+    //
+    //    let calendar = NSCalendar.current
+    //
+    //    var dateFormat = "h:mm a"
+    //    var special = ""
+    //    if timestamp > Double(1 * WEEK) {
+    //        dateFormat = "MM/dd/yyyy"
+    //    } else if timestamp > Double(1 * DAY) {
+    //        dateFormat = "EEEE"
+    //    } else if !calendar.isDateInToday(date) {
+    //        special = "Yesterday"
+    //    } else {
+    //        if Int(timestamp / MIN) == 0 {
+    //            special = "Just now"
+    //        }
+    //    }
+    //
+    //    if special == "" {
+    //        dateFormatter.dateFormat = dateFormat
+    //        return dateFormatter.string(from: date)
+    //    } else {
+    //        return special
+    //    }
+    //}
+    
+}
+
+extension ContactViewController {
+    
+    func initializeListeners() {
+        let realm = try! Realm()
         
-        let MIN: Double = 60 * 1000
-        let HOUR: Double = MIN * 60
-        let DAY: Double = HOUR * 24
-        let WEEK: Double = DAY * 7
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.timeZone = TimeZone(abbreviation: TimeZone.current.abbreviation()!)
-        
-        let dateInMillis = date.toMillis()
-        let now = Date().toMillis()
-        let timestamp = Double(now! - dateInMillis!)
-        
-        let calendar = NSCalendar.current
-        
-        var dateFormat = "h:mm a"
-        var special = ""
-        if timestamp > Double(1 * WEEK) {
-            dateFormat = "MM/dd/yyyy"
-        } else if timestamp > Double(1 * DAY) {
-            dateFormat = "EEEE"
-        } else if !calendar.isDateInToday(date) {
-            special = "Yesterday"
-        } else {
-            if Int(timestamp / MIN) == 0 {
-                special = "Just now"
+        let users = realm.objects(User.self)
+        userToken = users.observe { [weak self] (changes: RealmCollectionChange) in
+            switch changes {
+            case .initial:
+                // Results are now populated and can be accessed without blocking the UI
+                let channels = users.map{ $0.id }
+                PNWrapper.shared().client.subscribeToChannels(Array(channels), withPresence: false)
+            case .update(_, let deletions, let insertions, let modifications):
+                // Query results have changed, so apply them to the UITableView
+                let channels = users.map{ $0.id }
+                PNWrapper.shared().client.subscribeToChannels(Array(channels), withPresence: false)
+            case .error(let error):
+                // An error occurred while opening the Realm file on the background worker thread
+                fatalError("\(error)")
             }
         }
         
-        if special == "" {
-            dateFormatter.dateFormat = dateFormat
-            return dateFormatter.string(from: date)
+        let contractors = realm.objects(Contractor.self)
+        contractorToken = contractors.observe { [weak self] (changes: RealmCollectionChange) in
+            switch changes {
+            case .initial:
+                // Results are now populated and can be accessed without blocking the UI
+                let channels = contractors.map{ $0.id }
+                PNWrapper.shared().client.subscribeToChannels(Array(channels), withPresence: false)
+            case .update(_, let deletions, let insertions, let modifications):
+                // Query results have changed, so apply them to the UITableView
+                let channels = contractors.map{ $0.id }
+                PNWrapper.shared().client.subscribeToChannels(Array(channels), withPresence: false)
+            case .error(let error):
+                // An error occurred while opening the Realm file on the background worker thread
+                fatalError("\(error)")
+            }
+        }
+        
+        let appointments = realm.objects(Appointment.self)
+        appointmentToken = appointments.observe { [weak self] (changes: RealmCollectionChange) in
+            switch changes {
+            case .initial:
+                // Results are now populated and can be accessed without blocking the UI
+                let channels = appointments.map{ $0.id }
+                PNWrapper.shared().client.subscribeToChannels(Array(channels), withPresence: false)
+            case .update(_, let deletions, let insertions, let modifications):
+                // Query results have changed, so apply them to the UITableView
+                let channels = appointments.map{ $0.id }
+                PNWrapper.shared().client.subscribeToChannels(Array(channels), withPresence: false)
+            case .error(let error):
+                // An error occurred while opening the Realm file on the background worker thread
+                fatalError("\(error)")
+            }
+        }
+    }
+    
+}
+
+extension ContactViewController: PNObjectEventListener {
+    
+    // PubNub
+    private func initializePubNub() {
+        
+        PNWrapper.shared().client.addListener(self)
+        PNWrapper.shared().client.subscribeToChannels([UserData.shared().getId()], withPresence: false)
+        
+    }
+    
+    // Handle new message from one of channels on which client has been subscribed.
+    func client(_ client: PubNub, didReceiveMessage message: PNMessageResult) {
+        
+        // Handle new message stored in message.data.message
+        if message.data.channel != message.data.subscription {
+            // Message has been received on channel group stored in message.data.subscription.
         } else {
-            return special
+            // Message has been received on channel stored in message.data.channel.
+        }
+        
+        // print("Received message: \(message.data.message) on channel \(message.data.channel) " +
+        // "at \(message.data.timetoken)")
+        if let data = message.data.message as? [String: Any] {
+            if let name = data["name"] as? String {
+                if name == "user" {
+                    if let userData = data["data"] as? [String: Any] {
+                        let user = User(userData: userData)
+                        print(user)
+                        if user.id == UserData.shared().getId() {
+                            UserData.shared().setUser(token: UserData.shared().getToken()!, user: user)
+                        }
+                        RealmService.shared.createIfNotExists(user)
+                    }
+                } else if name == "contractor" {
+                    if let contractorData = data["data"] as? [String: Any] {
+                        let contractor = Contractor(contractorData: contractorData)
+                        print(contractor)
+                        RealmService.shared.createIfNotExists(contractor)
+                    }
+                } else if name == "appointment" {
+                    if let appointmentData = data["data"] as? [String: Any] {
+                        let appointment = Appointment(appointmentData: appointmentData)
+                        print(appointment)
+                        RealmService.shared.createIfNotExists(appointment)
+                    }
+                }
+            }
+        }
+    }
+    
+    // New presence event handling.
+    func client(_ client: PubNub, didReceivePresenceEvent event: PNPresenceEventResult) {
+        // Handle presence event event.data.presenceEvent (one of: join, leave, timeout, state-change).
+        if event.data.channel != event.data.subscription {
+            // Presence event has been received on channel group stored in event.data.subscription.
+        } else {
+            // Presence event has been received on channel stored in event.data.channel.
+        }
+        
+        if event.data.presenceEvent != "state-change" {
+            print("\(event.data.presence.uuid) \"\(event.data.presenceEvent)'ed\"\n" +
+                "at: \(event.data.presence.timetoken) on \(event.data.channel) " +
+                "(Occupancy: \(event.data.presence.occupancy))");
+        } else {
+            print("\(event.data.presence.uuid) changed state at: " +
+                "\(event.data.presence.timetoken) on \(event.data.channel) to:\n" +
+                "\(event.data.presence.state)");
+        }
+    }
+    
+    // Handle subscription status change.
+    func client(_ client: PubNub, didReceive status: PNStatus) {
+        if status.operation == .subscribeOperation {
+            // Check whether received information about successful subscription or restore.
+            if status.category == .PNConnectedCategory || status.category == .PNReconnectedCategory {
+                let subscribeStatus: PNSubscribeStatus = status as! PNSubscribeStatus
+                if subscribeStatus.category == .PNConnectedCategory {
+                    // This is expected for a subscribe, this means there is no error or issue whatsoever.
+                    // Select last object from list of channels and send message to it.
+                    if let targetChannel = client.channels().last {
+                        client.publish("Hello from the PubNub Swift SDK", toChannel: targetChannel,
+                                       compressed: false, withCompletion: { (publishStatus) -> Void in
+                                        if !publishStatus.isError {
+                                            // Message successfully published to specified channel.
+                                        } else {
+                                            /**
+                                             Handle message publish error. Check 'category' property to find out
+                                             possible reason because of which request did fail.
+                                             Review 'errorData' property (which has PNErrorData data type) of status
+                                             object to get additional information about issue.
+                                             
+                                             Request can be resent using: publishStatus.retry()
+                                             */
+                                        }
+                        })
+                    }
+                } else {
+                    /**
+                     This usually occurs if subscribe temporarily fails but reconnects. This means there was
+                     an error but there is no longer any issue.
+                     */
+                }
+            } else if status.category == .PNUnexpectedDisconnectCategory {
+                /**
+                 This is usually an issue with the internet connection, this is an error, handle
+                 appropriately retry will be called automatically.
+                 */
+            } else {
+                // Looks like some kind of issues happened while client tried to subscribe or disconnected from
+                // network.
+                if let errorStatus = status as? PNErrorStatus {
+                    if errorStatus.category == .PNAccessDeniedCategory {
+                        /**
+                         This means that PAM does allow this client to subscribe to this channel and channel group
+                         configuration. This is another explicit error.
+                         */
+                    } else {
+                        /**
+                         More errors can be directly specified by creating explicit cases for other error categories
+                         of `PNStatusCategory` such as: `PNDecryptionErrorCategory`,
+                         `PNMalformedFilterExpressionCategory`, `PNMalformedResponseCategory`, `PNTimeoutCategory`
+                         or `PNNetworkIssuesCategory`
+                         */
+                    }
+                }
+            }
         }
     }
 }
+

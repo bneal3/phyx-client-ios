@@ -38,9 +38,9 @@ class CampCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    public func setCell(service: Service) {
-        nameLabel.text = service.name
-        avatar.image = UIImage(named: service.photo)
+    public func setCell(service: [String: Any]) {
+        nameLabel.text = service["name"] as? String
+        avatar.image = UIImage(named: "logo")
     }
     
 }

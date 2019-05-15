@@ -106,9 +106,9 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nte-zl-Xvv">
-                                    <rect key="frame" x="36" y="202" width="342" height="84.666666666666686"/>
+                                    <rect key="frame" x="36" y="189" width="342" height="36"/>
                                     <constraints>
-                                        <constraint firstAttribute="width" secondItem="Nte-zl-Xvv" secondAttribute="height" multiplier="101:25" id="qKT-z4-1fz"/>
+                                        <constraint firstAttribute="height" constant="36" id="XqN-a5-gMy"/>
                                     </constraints>
                                     <state key="normal" title="Login">
                                         <color key="titleColor" red="0.29651466009999999" green="0.6431737542" blue="0.96647304300000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -172,7 +172,7 @@
                                 <constraint firstItem="arF-Mm-t0e" firstAttribute="top" secondItem="Ht5-Sk-kQt" secondAttribute="bottom" constant="7" id="Krv-eP-lwU"/>
                                 <constraint firstItem="1iA-Cx-hwW" firstAttribute="leading" secondItem="8lK-On-xSl" secondAttribute="leading" id="OHa-PO-Exj"/>
                                 <constraint firstItem="arF-Mm-t0e" firstAttribute="leading" secondItem="8lK-On-xSl" secondAttribute="leading" constant="39" id="Oxk-Zl-aqg"/>
-                                <constraint firstItem="Nte-zl-Xvv" firstAttribute="top" secondItem="Mda-j0-2wE" secondAttribute="bottom" constant="21" id="PZ3-kR-0iN"/>
+                                <constraint firstItem="Nte-zl-Xvv" firstAttribute="top" secondItem="Mda-j0-2wE" secondAttribute="bottom" constant="8" id="PZ3-kR-0iN"/>
                                 <constraint firstItem="d1f-uL-RGi" firstAttribute="top" secondItem="arF-Mm-t0e" secondAttribute="bottom" constant="16" id="Vbg-GO-Fmp"/>
                                 <constraint firstAttribute="width" secondItem="8lK-On-xSl" secondAttribute="height" multiplier="125:101" id="cbK-8c-U9Z"/>
                                 <constraint firstItem="Ht5-Sk-kQt" firstAttribute="leading" secondItem="8lK-On-xSl" secondAttribute="leading" constant="45" id="lIi-iw-I9e"/>

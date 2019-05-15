@@ -322,10 +322,10 @@ class SignViewController: UIViewController {
         
         SVProgressHUD.dismiss()
         
-        let locationManager = LocationManager.sharedInstance
-        locationManager.showVerboseMessage = true
-        locationManager.autoUpdate = false
-        locationManager.startUpdatingLocation()
+//        let locationManager = LocationManager.sharedInstance
+//        locationManager.showVerboseMessage = true
+//        locationManager.autoUpdate = false
+//        locationManager.startUpdatingLocation()
         
         // FLOW: Continue to MainViewController
         let appDelegate = UIApplication.shared.delegate as! AppDelegate

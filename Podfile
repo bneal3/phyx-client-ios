@@ -30,6 +30,9 @@ target 'Phyx' do
   pod 'SDWebImage'
   pod 'SDWebImage/GIF'
   pod 'RealmSwift'
+  pod 'SquareInAppPaymentsSDK'
+  pod 'SwiftMessages'
+  pod 'Stripe'
 
   target 'PhyxTests' do
     inherit! :search_paths

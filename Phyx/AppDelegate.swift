@@ -11,16 +11,20 @@ import Firebase
 import Realm
 import RealmSwift
 import OneSignal
+import SquareInAppPaymentsSDK
+import Stripe
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
+        SQIPInAppPaymentsSDK.squareApplicationID = Constants.Square.APPLICATION_ID
+        STPPaymentConfiguration.shared().publishableKey = "pk_live_06qpxfkSCktDbSVF3nnlqRz400hYrEsXTX"
         
         configRealm()
         configOS(launchOptions: launchOptions)
@@ -37,10 +41,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             RealmService.shared.setDefaultRealmForUser(id: UserData.shared().getId())
             
             // FLOW: Get user
-            let locationManager = LocationManager.sharedInstance
-            locationManager.showVerboseMessage = true
-            locationManager.autoUpdate = false
-            locationManager.startUpdatingLocation()
+//            let locationManager = LocationManager.sharedInstance
+//            locationManager.showVerboseMessage = true
+//            locationManager.autoUpdate = false
+//            locationManager.startUpdatingLocation()
             
             setMainScreen()
         } else {
@@ -51,10 +55,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         navigationBarAppearance.tintColor = UIColor.black
         navigationBarAppearance.barTintColor = UIColor.white
         navigationBarAppearance.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Avenir Book", size: 18.0)!, NSAttributedString.Key.foregroundColor: UIColor.black]
-        
-        let tabBarAppearance = UITabBar.appearance()
-        tabBarAppearance.isTranslucent = false
-        tabBarAppearance.barTintColor = UIColor.white
         
         return true
     }

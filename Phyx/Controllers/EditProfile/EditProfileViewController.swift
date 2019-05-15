@@ -108,6 +108,10 @@ class EditProfileViewController: UIViewController {
     private func fillData() {
         
         nameField.text = UserData.shared().getUserPersonalName()
+        
+        usernameField.text = UserData.shared().getPhone()
+        usernameField.isEnabled = false
+        
         let dateString = formatter.string(from: Date(timeIntervalSince1970: Double(UserData.shared().getUserBirthday())))
         birthField.text = dateString
         
@@ -129,8 +133,7 @@ class EditProfileViewController: UIViewController {
     
     @objc func clickedBack() {
         
-        self.navigationController?.dismiss(animated: true, completion: nil)
-        
+        self.navigationController?.popViewController(animated: true)
     }
     
     @objc func clickedAvatar() {

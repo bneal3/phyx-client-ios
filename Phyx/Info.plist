@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Phyx</string>
+	<string>Body Fixers</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -19,19 +19,25 @@
 	<key>CFBundleShortVersionString</key>
 	<string>0.1</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>4</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppleMusicUsageDescription</key>
 	<string>Allow access to choose a photo for your profile picture.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Allow access to take a photo for your profile picture.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Allow location access for easy accessibility of address</string>
 	<key>NSLocationUsageDescription</key>
 	<string>Allow location access for contractor selection.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Allow location access for contractor selection.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Allow access to choose a photo for your profile picture.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
