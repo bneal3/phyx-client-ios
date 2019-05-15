@@ -1,7 +1,7 @@
 
 //
 //  PurchaseSuccessViewController.swift
-//  Camp
+//  Phyx
 //
 //  Created by sonnaris on 9/2/18.
 //  Copyright © 2018 sonnaris. All rights reserved.
@@ -13,9 +13,7 @@ class PurchaseSuccessViewController: UIViewController {
 
     var contentString: String!
     @IBOutlet weak var contentLabel: UILabel!
-    
-    var delegate: ModalHandler!
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
 

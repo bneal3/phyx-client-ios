@@ -1,6 +1,6 @@
 //
 //  Extensions.swift
-//  Camp
+//  Phyx
 //
 //  Created by apple on 12/28/18.
 //  Copyright © 2018 sonnaris. All rights reserved.
@@ -213,7 +213,6 @@ extension UIColor {
     static var linkMessage: UIColor { return UIColor(netHex: 0x0000EE) }
     
     static var phyx: UIColor { return UIColor(netHex: 0x388DFB) }
-    static var camp: UIColor { return UIColor(netHex: 0xF6695F) }
     static var gold: UIColor { return UIColor(netHex: 0xFFD700) }
     static var platinum: UIColor { return UIColor(netHex: 0xE5E4E2 ) }
     static var silver: UIColor { return UIColor(netHex: 0xC0C0C0) }

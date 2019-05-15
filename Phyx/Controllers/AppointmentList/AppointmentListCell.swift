@@ -1,6 +1,6 @@
 //
-//  NewConversationCell.swift
-//  Camp
+//  AppointmentListCell.swift
+//  Phyx
 //
 //  Created by sonnaris on 9/3/18.
 //  Copyright © 2018 sonnaris. All rights reserved.

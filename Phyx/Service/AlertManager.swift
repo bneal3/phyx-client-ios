@@ -1,6 +1,6 @@
 //
 //  AlertManager.swift
-//  Camp
+//  Phyx
 //
 //  Created by Benjamin Neal on 2/4/19.
 //  Copyright © 2019 sonnaris. All rights reserved.

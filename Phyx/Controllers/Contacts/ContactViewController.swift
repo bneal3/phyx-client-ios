@@ -1,6 +1,6 @@
 //
 //  ContactViewController.swift
-//  Camp
+//  Phyx
 //
 //  Created by sonnaris on 8/16/18.
 //  Copyright © 2018 sonnaris. All rights reserved.
@@ -84,8 +84,8 @@ class ContactViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
-        let serviceXib = UINib(nibName: "CampCell", bundle: nil)
-        tableView.register(serviceXib, forCellReuseIdentifier: CampCell.identifier)
+        let serviceXib = UINib(nibName: "ServiceCell", bundle: nil)
+        tableView.register(serviceXib, forCellReuseIdentifier: ServiceCell.identifier)
         
         menuTableView.delegate = self
         menuTableView.dataSource = self
@@ -333,7 +333,7 @@ extension ContactViewController : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == self.tableView {
-            let cell = tableView.dequeueReusableCell(withIdentifier: CampCell.identifier, for: indexPath) as! CampCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: ServiceCell.identifier, for: indexPath) as! ServiceCell
             
             cell.setCell(service: services[indexPath.row])
             

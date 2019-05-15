@@ -1,6 +1,6 @@
 //
 //  LocationManager.swift
-//  Camp
+//  Phyx
 //
 //  Created by apple on 1/25/19.
 //  Copyright © 2019 sonnaris. All rights reserved.

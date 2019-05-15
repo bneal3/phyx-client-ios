@@ -1,6 +1,6 @@
 //
 //  CMImageVC+UIScrollViewDelegate.swift
-//  camp
+//  Phyx
 //
 //  Created by Kevin Hall on 5/11/18.
 //  Copyright © 2018 Benjamin Neal. All rights reserved.

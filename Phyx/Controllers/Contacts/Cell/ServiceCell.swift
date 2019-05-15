@@ -1,6 +1,6 @@
 //
 //  ContactCell.swift
-//  Camp
+//  Phyx
 //
 //  Created by sonnaris on 8/20/18.
 //  Copyright © 2018 sonnaris. All rights reserved.
@@ -9,9 +9,9 @@
 import UIKit
 import SwiftyAvatar
 
-class CampCell: UITableViewCell {
+class ServiceCell: UITableViewCell {
     
-    static let identifier = "CampCell"
+    static let identifier = "ServiceCell"
 
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var avatar: SwiftyAvatar!

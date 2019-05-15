@@ -1,6 +1,6 @@
 //
 //  PushNotifications.swift
-//  Camp
+//  Phyx
 //
 //  Created by Benjamin Neal on 1/14/19.
 //  Copyright © 2019 sonnaris. All rights reserved.

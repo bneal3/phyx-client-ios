@@ -1,6 +1,6 @@
 //
 //  Config.swift
-//  stat
+//  Phyx
 //
 //  Created by Benjamin Neal on 10/14/17.
 //  Copyright © 2017 Benjamin Neal. All rights reserved.
