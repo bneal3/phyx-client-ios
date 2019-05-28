@@ -121,6 +121,12 @@ class ContactViewController: UIViewController {
         let locationManager = LocationManager.sharedInstance
         locationManager.showVerboseMessage = true
         locationManager.startUpdatingLocation()
+        
+        if UserData.shared().getDevice() != UserData.shared().getPlayerId() {
+            ApiService.shared().setDevice(device: UserData.shared().getPlayerId() ?? "", onSuccess: { (response) in
+                UserData.shared().setDevice(device: UserData.shared().getPlayerId() ?? "")
+            }, onFailure: { (error) in })
+        }
     }
     
     deinit {

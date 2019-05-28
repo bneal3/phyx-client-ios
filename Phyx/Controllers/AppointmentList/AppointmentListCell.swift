@@ -13,10 +13,10 @@ class AppointmentListCell: UITableViewCell {
     
     static let identifier = "AppointmentListCell"
 
-    @IBOutlet weak var avatar: SwiftyAvatar!
     @IBOutlet weak var nameView: UILabel!
     @IBOutlet weak var firstAddressLabel: UILabel!
-    @IBOutlet weak var secondAddressLabel: UILabel!
+    @IBOutlet weak var serviceLabel: UILabel!
+    @IBOutlet weak var statusLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -34,19 +34,24 @@ class AppointmentListCell: UITableViewCell {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMM d, h:mm a"
         let meetingTime = Date(timeIntervalSince1970: appointment.meetingTime.toTimeInterval())
-        print(meetingTime)
         nameView.text = dateFormatter.string(from: meetingTime)
         
         var number = ""
         if let digits = appointment.address.number {
             number = String(digits)
         }
-        firstAddressLabel.text = "\(number) \(appointment.address.street)"
-        var areaCode = ""
+        var zipCode = ""
         if let zip = appointment.address.areaCode {
-            areaCode = String(zip)
+            zipCode = String(zip)
         }
-        secondAddressLabel.text = "\(appointment.address.city) \(appointment.address.state) \(areaCode)"
+        firstAddressLabel.text = "\(number) \(appointment.address.street), \(appointment.address.city) \(appointment.address.state), \(zipCode)"
+        
+        serviceLabel.text = SERVICE_TITLES[appointment.service]
+        if appointment.status >= 0 {
+            statusLabel.text = APPOINTMENT_STATUS[appointment.status]
+        } else {
+            statusLabel.text = "Cancelled"
+        }
     }
     
 }

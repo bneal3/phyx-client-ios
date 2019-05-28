@@ -39,6 +39,8 @@ class UserData {
             userDefaults.set(avatar, forKey: "user_avatar")
         }
         
+        userDefaults.set(user.device, forKey: "user_device")
+        
         userDefaults.synchronize()
     }
     
@@ -82,6 +84,12 @@ class UserData {
         userDefaults.synchronize()
     }
     
+    public func setDevice(device: String) {
+        let userDefaults = UserDefaults.standard
+        userDefaults.set(device, forKey: "user_device")
+        userDefaults.synchronize()
+    }
+    
     
     // Get
     public func getUser() -> User {
@@ -109,6 +117,11 @@ class UserData {
             avatar = _avatar
         }
         userData["avatar"] = avatar
+        var device = ""
+        if let _device = userDefaults.object(forKey: "user_device") as? String {
+            device = _device
+        }
+        userData["device"] = device
         
         let user = User(userData: userData)
         return user
@@ -154,6 +167,11 @@ class UserData {
         return userDefaults.object(forKey: "user_avatar") as? String
     }
     
+    public func getDevice() -> String {
+        let userDefaults = UserDefaults.standard
+        return userDefaults.object(forKey: "user_device") as! String
+    }
+    
     // First time usage
     public func setFirstTimeUsage(screen: String) {
         let userDefaults = UserDefaults.standard
@@ -181,6 +199,7 @@ class UserData {
         
         userDefaults.removeObject(forKey: "user_name")
         userDefaults.removeObject(forKey: "user_avatar")
+        userDefaults.removeObject(forKey: "user_device")
         
         userDefaults.removeObject(forKey: "user_first_time_leaderboards")
         userDefaults.removeObject(forKey: "user_first_time_chats")
@@ -190,7 +209,6 @@ class UserData {
     }
     
     func getPlayerId() -> String? {
-
         let status: OSPermissionSubscriptionState = OneSignal.getPermissionSubscriptionState()
 
         if let userId = status.subscriptionStatus.userId {

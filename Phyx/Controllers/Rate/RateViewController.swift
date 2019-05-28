@@ -37,7 +37,12 @@ class RateViewController: UIViewController, STPAddCardViewControllerDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        starReset()
+       
+        if let rating = appointment.rating, rating > 0 {
+            starTapped(rating, update: false)
+        } else {
+            starReset()
+        }
     }
     
     override func viewDidLoad() {
@@ -98,10 +103,6 @@ class RateViewController: UIViewController, STPAddCardViewControllerDelegate {
         }
         professionLabel.text = profession
         
-        // FLOW: Populate rating if there
-        if let rating = appointment.rating {
-            starTapped(rating, update: false)
-        }
     }
     
     @IBAction func closeTapped(_ sender: Any) {

@@ -11,7 +11,6 @@ import Firebase
 import Realm
 import RealmSwift
 import OneSignal
-import SquareInAppPaymentsSDK
 import Stripe
 
 @UIApplicationMain
@@ -23,8 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
-        SQIPInAppPaymentsSDK.squareApplicationID = Constants.Square.APPLICATION_ID
-        STPPaymentConfiguration.shared().publishableKey = "pk_live_06qpxfkSCktDbSVF3nnlqRz400hYrEsXTX"
+        // SQIPInAppPaymentsSDK.squareApplicationID = Constants.Square.APPLICATION_ID
+        STPPaymentConfiguration.shared().publishableKey = STRIPE_SUB_KEY
         
         configRealm()
         configOS(launchOptions: launchOptions)

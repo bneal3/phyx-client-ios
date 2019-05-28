@@ -48,7 +48,7 @@ import RealmSwift
             }
         }
         
-        if let nameData = contractorData["name"] as? String {
+        if let nameData = contractorData["name"] as? [String: Any] {
             if let first = nameData["first"] as? String {
                 self.first = first
             }

@@ -53,7 +53,7 @@ class Address {
         }
         
         if segments.count > 1 {
-            self.city = String(segments[1])
+            self.city = String(segments[1].trimmingCharacters(in: .whitespacesAndNewlines))
         }
         
         if segments.count > 2 {

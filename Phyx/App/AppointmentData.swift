@@ -90,7 +90,7 @@ class AppointmentData {
         userDefaults.synchronize()
     }
     
-    public func setLength(length: Int) {
+    public func setLength(length: Int?) {
         let userDefaults = UserDefaults.standard
         userDefaults.set(length, forKey: "appointment_length")
         userDefaults.synchronize()

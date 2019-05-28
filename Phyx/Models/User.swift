@@ -17,6 +17,7 @@ import RealmSwift
     dynamic var phone: String = ""
     dynamic var birthday: Int64 = 0
     dynamic var avatar: String? = nil
+    dynamic var device: String = ""
     
     dynamic var rating: Float? = nil
     
@@ -50,6 +51,10 @@ import RealmSwift
         
         if let avi = userData["avatar"] as? String, avi != "" {
             self.avatar = avi
+        }
+        
+        if let device = userData["device"] as? String {
+            self.device = device
         }
         
         if let rating = userData["rating"] as? Float, rating > 0 {

@@ -73,12 +73,11 @@ class LocationSelectionViewController: UIViewController {
 //                self.mapView.addAnnotation(annotation)
 //            }
 //        }
-        print("YO")
+        
         let locationManager = LocationManager.sharedInstance
         locationManager.showVerboseMessage = true
         locationManager.startUpdatingLocationWithCompletionHandler { (latitude, longitude, status, verboseMessage, error) -> () in
             
-            print("here")
             if (error != nil) {
                 self.mapView.setRegion(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 34.052235
                     , longitude: -118.243683), span: MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1)), animated: false)
@@ -86,12 +85,52 @@ class LocationSelectionViewController: UIViewController {
             }
             
             locationManager.stopUpdatingLocation()
-            print(latitude)
-            print(longitude)
+            
             let location = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-            self.mapView.setCenter(location, animated: false)
-            self.zoomMap(byFactor: 0.5)
+            
+            self.lookUpCurrentLocation(coordinates: location, completionHandler: { (placemark) in
+                
+                self.mapView.setCenter(location, animated: false)
+                self.zoomMap(byFactor: 0.5)
+                
+                let allAnnotations = self.mapView.annotations
+                self.mapView.removeAnnotations(allAnnotations)
+                
+                let annotation = MKPointAnnotation()
+                annotation.coordinate = location
+                self.mapView.addAnnotation(annotation)
+                
+                if let placemark = placemark {
+                    let place = MKPlacemark(placemark: placemark)
+                    let location = place.coordinate
+                    let addy = Address(address: place.title!)
+                    
+                    var areaCode = ""
+                    if let zip = addy.areaCode {
+                        areaCode = String(zip)
+                    }
+                    self.searchField.text = "\(addy.digits) \(addy.street), \(addy.city), \(addy.state) \(areaCode)"
+                    
+                    self.selectBtn.isEnabled = true
+                }
+            })
+  
         }
+    }
+    
+    func lookUpCurrentLocation(coordinates: CLLocationCoordinate2D, completionHandler: @escaping (CLPlacemark?) -> Void ) {
+        // Use the last reported location.
+        let geocoder = CLGeocoder()
+        let location = CLLocation(latitude: coordinates.latitude, longitude: coordinates.longitude)
+        // Look up the location and pass it to the completion handler
+        geocoder.reverseGeocodeLocation(location, completionHandler: { (placemarks, error) in
+            if error == nil {
+                let firstLocation = placemarks?[0]
+                completionHandler(firstLocation)
+            } else {
+                completionHandler(nil)
+            }
+        })
     }
 
     private func initialize() {
@@ -208,7 +247,7 @@ extension LocationSelectionViewController : UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         guard let searchText = textField.text else { return false }
-        print(searchText)
+        
         let request = MKLocalSearch.Request()
         request.naturalLanguageQuery = searchText
         request.region = mapView.region
@@ -218,7 +257,6 @@ extension LocationSelectionViewController : UITextFieldDelegate {
                 return
             }
             let placemark = response.mapItems[0].placemark
-            print(placemark.title)
             self.addresses = response.mapItems
             self.tableView.reloadData()
         }
@@ -265,12 +303,10 @@ extension LocationSelectionViewController : UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // TODO: Update map, populate search field, allow select
         let item = addresses[indexPath.row]
         let location = item.placemark.coordinate
         let addy = Address(address: item.placemark.title!)
-        print("HERE")
-        
+
         mapView.setCenter(location, animated: false)
         zoomMap(byFactor: 0.5)
         

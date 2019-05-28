@@ -76,8 +76,8 @@ class ServiceDetailsViewController: UIViewController {
             descriptionLabel.text = description
         }
         
-        meetingDatePicker.date = Date().addingTimeInterval(60 * 60 * 24)
-        meetingDatePicker.minimumDate = Date().addingTimeInterval(60 * 60 * 24)
+        meetingDatePicker.date = Date().addingTimeInterval(60 * 60)
+        meetingDatePicker.minimumDate = Date().addingTimeInterval(60 * 60)
         
         btnBack = UIBarButtonItem(image: UIImage(named: "BackBlack"), style: .plain, target: self, action: #selector(self.clickedBack))
         self.navigationItem.hidesBackButton = true
@@ -103,14 +103,14 @@ class ServiceDetailsViewController: UIViewController {
     
     @IBAction func continueBtnTapped(_ sender: Any) {
         let hour = Calendar.current.component(.hour, from: meetingDatePicker.date)
-        if hour >= 8 && hour <= 20 {
+        if hour >= 5 && hour < 24 {
             AppointmentData.shared().setService(service: details["serviceId"] as! Int)
             AppointmentData.shared().setMeetingTime(meetingTime: meetingDatePicker.date.toMillis())
             
             let locationSelectionVC = LocationSelectionViewController()
             self.navigationController?.pushViewController(locationSelectionVC, animated: true)
         } else {
-            let alert = UIAlertController(title: "You must select a time between 8am and 8pm.",
+            let alert = UIAlertController(title: "You must select a time between 6am and 11pm.",
                                           message: "Please try again.",
                                           preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in

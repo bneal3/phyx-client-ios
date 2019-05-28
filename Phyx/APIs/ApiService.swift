@@ -190,6 +190,25 @@ class ApiService {
     
     // Profile
     
+    func setDevice(device: String, onSuccess success: @escaping (_ result: Response) -> Void, onFailure failure: @escaping (_ error: Any) -> Void) {
+        
+        let parameters = [
+            "device": device
+        ]
+        
+        var request: HTTPRequest = HTTPRequest()
+        request.method = HTTPMethod.patch
+        request.path = "/users/device"
+        request.parameters = parameters
+        
+        REQWrapper.shared.send(request: request, onSuccess: { response in
+            
+            success(response)
+            
+        }, onError: failure)
+        
+    }
+    
     func changePassword(oldPassword: String, newPassword: String, onSuccess success: @escaping(_ result: Response) -> Void, onFailure failure: @escaping(_ error: Any) -> Void) {
         
         let parameters = [

@@ -35,7 +35,7 @@
                                         <action selector="clickedBack:" destination="-1" eventType="touchUpInside" id="uMB-9m-lt1"/>
                                     </connections>
                                 </button>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="phyx-logo" translatesAutoresizingMaskIntoConstraints="NO" id="zMU-OC-atB">
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Client" translatesAutoresizingMaskIntoConstraints="NO" id="zMU-OC-atB">
                                     <rect key="frame" x="167" y="52" width="80" height="80"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="80" id="7Bo-Hf-8KP"/>
@@ -49,7 +49,7 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                             </subviews>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="backgroundColor" red="0.95044189691543579" green="0.96156471967697144" blue="0.97926467657089233" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstItem="BGD-0N-aBT" firstAttribute="centerX" secondItem="LZ4-WC-bZ3" secondAttribute="centerX" id="1HV-VQ-K4x"/>
                                 <constraint firstItem="1Oq-te-AOh" firstAttribute="top" secondItem="LZ4-WC-bZ3" secondAttribute="top" constant="52" id="Ac3-1i-2Sp"/>
@@ -209,6 +209,6 @@
         <image name="BackBlack" width="24" height="11"/>
         <image name="BackgroundInput" width="275" height="41"/>
         <image name="BackgroundPop" width="375" height="240"/>
-        <image name="phyx-logo" width="1024" height="1024"/>
+        <image name="Client" width="1290" height="1281"/>
     </resources>
 </document>

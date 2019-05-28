@@ -70,7 +70,7 @@ var FS_STORAGE_PASSWORD: String {
 var STRIPE_SUB_KEY: String {
     switch _env {
     case Environment.production: // Connects to standard environment
-        return "pk_live_06qpxfkSCktDbSVF3nnlqRz400hYrEsXTX"
+        return "pk_test_SxtOsZ8xPn4zmPmwXtvI3J6d00yG7FEvOG" // "pk_live_06qpxfkSCktDbSVF3nnlqRz400hYrEsXTX"
     case Environment.lan: // Connects to local server
         return "pk_test_SxtOsZ8xPn4zmPmwXtvI3J6d00yG7FEvOG"
     }

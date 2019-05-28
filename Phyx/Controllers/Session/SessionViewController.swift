@@ -115,6 +115,15 @@ class SessionViewController: UIViewController, STPAddCardViewControllerDelegate 
         contractorAvatar.layer.masksToBounds = true
         contractorAvatar.layer.cornerRadius = contractorAvatar.frame.width / 2
         
+        if let length = appointment.length {
+            self.lengthLabel.text = "\(String(length)) minutes"
+            if length >= 120 {
+                addTimeBtn.isHidden = true
+            }
+        } else {
+            self.lengthLabel.text = "~\(String(AppointmentData.shared().getLength()!)) minutes"
+        }
+        
         if let contractorId = appointment.contractorId, contractorId != "" {
             SVProgressHUD.show()
             ApiService.shared().getContractor(id: contractorId, onSuccess: { (contractor) in
@@ -168,6 +177,8 @@ class SessionViewController: UIViewController, STPAddCardViewControllerDelegate 
             statusLabel.text = APPOINTMENT_STATUS[appointment.status]
         } else {
             statusLabel.text = "Cancelled"
+            cancelBtn.isHidden = true
+            addTimeBtn.isHidden = true
         }
     }
     
@@ -200,7 +211,15 @@ class SessionViewController: UIViewController, STPAddCardViewControllerDelegate 
     
     @IBAction func addTimeTapped(_ sender: Any) {
         
-        handleAddPaymentOptionButtonTapped()
+        let alert = UIAlertController(title: "Add 30 minutes to the appointment?",
+                                      message: "You will be charged an extra $1.00",
+                                      preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
+            self.handleAddPaymentOptionButtonTapped()
+        }))
+        alert.addAction(UIAlertAction(title: "No", style: .default, handler: nil))
+        
+        self.present(alert, animated: true, completion: nil)
         
     }
     
@@ -282,23 +301,23 @@ extension SessionViewController {
     
     func addCardViewController(_ addCardViewController: STPAddCardViewController, didCreateToken token: STPToken, completion: @escaping STPErrorBlock) {
         
-        ApiService.shared().charge(token: token.tokenId, amount: self.amount, category: "additional", meetingTime: self.appointment.meetingTime, appointmentId: nil, onSuccess: { (response) in
+        ApiService.shared().charge(token: token.tokenId, amount: self.amount, category: "additional", meetingTime: self.appointment.meetingTime, appointmentId: self.appointment.id, onSuccess: { (response) in
             
-            ApiService.shared().patchAppointment(id: self.appointment.id, service: self.appointment.service, meetingTime: self.appointment.meetingTime, status: self.appointment.status, location: self.appointment.location, length: self.appointment.length! + 30, notes: self.appointment.notes ?? "", rating: self.appointment.rating, onSuccess: { (appointment) in
+            ApiService.shared().patchAppointment(id: self.appointment.id, service: self.appointment.service, meetingTime: self.appointment.meetingTime, status: self.appointment.status, location: self.appointment.location, length: self.appointment.length! + 30, notes: self.appointment.notes ?? "", rating: self.appointment.rating, onSuccess: { (updated) in
                 
-                let alert = UIAlertController(title: "Time successfully added.",
-                                              message: "Your contractor has been notified.",
-                                              preferredStyle: UIAlertController.Style.alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-                    self.present(alert, animated: true, completion: nil)
-                    self.lengthLabel.text = "\(String(appointment.length!)) minutes"
+                self.dismiss(animated: true, completion: {
+                    self.lengthLabel.text = "\(String(updated.length!)) minutes"
                     
-                    if appointment.length! == 120 {
+                    if updated.length! == 120 {
                         self.addTimeBtn.isHidden = true
                     }
-                }))
-                self.present(alert, animated: true, completion: nil)
-                
+                    
+                    let alert = UIAlertController(title: "Time successfully added.",
+                                                  message: "Your contractor has been notified.",
+                                                  preferredStyle: UIAlertController.Style.alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in }))
+                    self.present(alert, animated: true, completion: nil)
+                })
             }) { (response) in }
         }) { (response) in }
     }

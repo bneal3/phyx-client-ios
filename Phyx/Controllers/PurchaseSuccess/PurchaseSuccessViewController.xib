@@ -38,8 +38,8 @@
                             </constraints>
                         </imageView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HbN-vI-M80">
-                            <rect key="frame" x="156" y="459" width="63" height="34"/>
-                            <state key="normal" title="Dismiss">
+                            <rect key="frame" x="162.66666666666666" y="459" width="50" height="34"/>
+                            <state key="normal" title="Got it!">
                                 <color key="titleColor" red="0.30162730809999999" green="0.5936079621" blue="0.95908254380000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                             <connections>

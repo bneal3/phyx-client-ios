@@ -23,18 +23,15 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K7b-ta-hnn">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Fs0-gh-Mh5">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
-                        </imageView>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="phyx-logo" translatesAutoresizingMaskIntoConstraints="NO" id="h5U-Oc-Pva">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Client" translatesAutoresizingMaskIntoConstraints="NO" id="h5U-Oc-Pva">
                             <rect key="frame" x="107.66666666666669" y="141" width="160" height="160"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="160" id="XoJ-qd-mrg"/>
                                 <constraint firstAttribute="width" constant="160" id="oXq-v9-ovs"/>
                             </constraints>
                         </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alternative Medicine On-Demand" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AhT-X8-2rf">
-                            <rect key="frame" x="59" y="329" width="257" height="24"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alternative Health Care On-Demand" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AhT-X8-2rf">
+                            <rect key="frame" x="49" y="329" width="277" height="24"/>
                             <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
                             <color key="textColor" red="0.29651466009999999" green="0.6431737542" blue="0.96647304300000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
@@ -87,18 +84,14 @@
                             </constraints>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="backgroundColor" red="0.95044189691543579" green="0.96156471967697144" blue="0.97926467657089233" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
-                        <constraint firstItem="Fs0-gh-Mh5" firstAttribute="leading" secondItem="K7b-ta-hnn" secondAttribute="leading" id="6Tb-1v-2Wj"/>
                         <constraint firstItem="AhT-X8-2rf" firstAttribute="top" secondItem="h5U-Oc-Pva" secondAttribute="bottom" constant="28" id="BhK-iH-Z39"/>
-                        <constraint firstItem="Fs0-gh-Mh5" firstAttribute="top" secondItem="K7b-ta-hnn" secondAttribute="top" id="Jkq-Vb-2b9"/>
                         <constraint firstItem="h5U-Oc-Pva" firstAttribute="centerX" secondItem="K7b-ta-hnn" secondAttribute="centerX" id="MZV-Jt-0Cu"/>
                         <constraint firstItem="AhT-X8-2rf" firstAttribute="centerX" secondItem="K7b-ta-hnn" secondAttribute="centerX" id="NjB-MJ-q54"/>
                         <constraint firstAttribute="bottom" secondItem="lwk-Zc-EYG" secondAttribute="bottom" constant="42" id="WY0-aa-Zrd"/>
-                        <constraint firstAttribute="bottom" secondItem="Fs0-gh-Mh5" secondAttribute="bottom" id="gXS-RQ-Bp2"/>
                         <constraint firstItem="lwk-Zc-EYG" firstAttribute="leading" secondItem="K7b-ta-hnn" secondAttribute="leading" id="kvd-on-Ld9"/>
                         <constraint firstAttribute="trailing" secondItem="lwk-Zc-EYG" secondAttribute="trailing" id="lOC-I2-1Cg"/>
-                        <constraint firstAttribute="trailing" secondItem="Fs0-gh-Mh5" secondAttribute="trailing" id="mHC-hF-SEm"/>
                         <constraint firstItem="h5U-Oc-Pva" firstAttribute="top" secondItem="K7b-ta-hnn" secondAttribute="top" constant="141" id="pty-Y9-qHb"/>
                     </constraints>
                 </view>
@@ -115,6 +108,6 @@
         </view>
     </objects>
     <resources>
-        <image name="phyx-logo" width="1024" height="1024"/>
+        <image name="Client" width="1290" height="1281"/>
     </resources>
 </document>

@@ -130,6 +130,13 @@ class AppointmentConfirmationViewController: UIViewController, STPAddCardViewCon
             
             addTimeBtn.isHidden = false
         } else {
+            AppointmentData.shared().setLength(length: nil)
+            if let length = AppointmentData.shared().getLength() {
+                lengthLabel.text = "\(String(length)) minutes"
+            } else {
+                lengthLabel.text = ""
+            }
+            
             addTimeBtn.isHidden = true
             removeTimeBtn.isHidden = true
         }
@@ -220,29 +227,45 @@ extension AppointmentConfirmationViewController {
                 notes = self.notesTextView.text
             }
             
-        ApiService.shared().postAppointment(service: AppointmentData.shared().getService(), meetingTime: AppointmentData.shared().getMeetingTime(), location: AppointmentData.shared().getLocation(), length: AppointmentData.shared().getLength(), notes: notes, amount: self.amount, chargeId: response.object["chargeId"] as! String, onSuccess: { (appointment) in
+            if let chargeId = response.object["chargeId"] as? String {
+                ApiService.shared().postAppointment(service: AppointmentData.shared().getService(), meetingTime: AppointmentData.shared().getMeetingTime(), location: AppointmentData.shared().getLocation(), length: AppointmentData.shared().getLength(), notes: notes, amount: self.amount, chargeId: chargeId, onSuccess: { (appointment) in
+                    
+                    RealmService.shared.createIfNotExists(appointment)
                 
-                RealmService.shared.createIfNotExists(appointment)
+                    self.dismiss(animated: true, completion: {
+                        let successVC = PurchaseSuccessViewController(nibName: "PurchaseSuccessViewController", bundle: nil)
+                        self.navigationController?.pushViewController(successVC, animated: true)
+                    })
                 
+                }) { (response) in
+                    // FLOW: Alert problem creating appointment
+                    self.dismiss(animated: true, completion: {
+                        let alert = UIAlertController(title: "Your order was not successful",
+                                                      message: "Please try again.",
+                                                      preferredStyle: UIAlertController.Style.alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in }))
+                        self.present(alert, animated: true, completion: nil)
+                    })
+                }
+            } else {
                 self.dismiss(animated: true, completion: {
-                    let successVC = PurchaseSuccessViewController(nibName: "PurchaseSuccessViewController", bundle: nil)
-                    self.navigationController?.pushViewController(successVC, animated: true)
+                    let alert = UIAlertController(title: "Your order was not successful",
+                                                  message: "Please try again.",
+                                                  preferredStyle: UIAlertController.Style.alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in }))
+                    self.present(alert, animated: true, completion: nil)
                 })
-                
-            }) { (response) in
-                // TODO: Alert problem creating appointment
-                self.dismiss(animated: true, completion: {})
             }
             
         }) { (error) in
             // FLOW: Alert error
-            let alert = UIAlertController(title: "Your order was not successful",
-                                          message: "Please try again.",
-                                          preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-                self.dismiss(animated: true, completion: {})
-            }))
-            self.present(alert, animated: true, completion: nil)
+            self.dismiss(animated: true, completion: {
+                let alert = UIAlertController(title: "Your order was not successful",
+                                              message: "Please try again.",
+                                              preferredStyle: UIAlertController.Style.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in }))
+                self.present(alert, animated: true, completion: nil)
+            })
         }
     }
 }

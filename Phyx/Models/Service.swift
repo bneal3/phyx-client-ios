@@ -82,6 +82,19 @@ var MASSAGES: [[String: Any]] = [
     ]
 ]
 
+var PRICES = [
+    149,
+    169,
+    89,
+    89,
+    89,
+    89,
+    89,
+    89,
+    89,
+    149
+]
+
 class Service {
     
     var name: String = ""
