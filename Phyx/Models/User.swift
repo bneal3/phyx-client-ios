@@ -19,7 +19,7 @@ import RealmSwift
     dynamic var avatar: String? = nil
     dynamic var device: String = ""
     
-    dynamic var rating: Float? = nil
+    var rating: Float? = nil
     
     var isSelected = false
     

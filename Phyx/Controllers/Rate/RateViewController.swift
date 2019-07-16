@@ -67,7 +67,7 @@ class RateViewController: UIViewController, STPAddCardViewControllerDelegate {
         
         stars = [star1, star2, star3, star4, star5]
         
-        tipField.keyboardType = .numberPad
+        tipField.keyboardType = .decimalPad
         
         containerView.layer.masksToBounds = true
         containerView.layer.cornerRadius = 5

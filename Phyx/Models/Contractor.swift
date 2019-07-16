@@ -23,8 +23,8 @@ import RealmSwift
     dynamic var bio: String = ""
     dynamic var avatar: String? = nil
     dynamic var video: String? = nil
-    dynamic var services: List<Int> = List<Int>()
-    dynamic var rating: Float? = nil
+    var services: List<Int> = List<Int>()
+    var rating: Float? = nil
     
     dynamic var submitted: Bool = false
     dynamic var approved: Bool = false

@@ -33,7 +33,7 @@ class AppointmentData {
             userDefaults.set(contractorId, forKey: "appointment_contractorId")
         }
         userDefaults.set(appointment.service, forKey: "appointment_service")
-        if let length = appointment.length {
+        if let length = appointment.length, length > 0 {
             userDefaults.set(length, forKey: "appointment_length")
         }
         

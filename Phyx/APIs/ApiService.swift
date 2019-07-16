@@ -295,7 +295,7 @@ class ApiService {
             "chargeId": chargeId
         ] as [String : Any]
         
-        if let length = length {
+        if let length = length, length > 0 {
             parameters["length"] = length
         }
         
@@ -379,7 +379,7 @@ class ApiService {
             "rating": rating
         ] as [String : Any]
         
-        if let length = length {
+        if let length = length, length > 0 {
             parameters["length"] = length
         }
         

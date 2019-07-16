@@ -27,7 +27,7 @@ var API_URL: String {
     case Environment.production: // Connects to standard environment
         return "https://phyx-api-production.herokuapp.com"
     case Environment.lan: // Connects to local server
-        return "http://192.168.1.8:4000"
+        return "http://192.168.1.172:4000"
     }
 }
 

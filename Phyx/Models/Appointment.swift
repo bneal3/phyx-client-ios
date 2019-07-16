@@ -60,13 +60,13 @@ var MASSAGE_LENGTHS: [Int] = [
     dynamic var meetingTime: Int64 = 0
     dynamic var status: Int = 0
     dynamic var location: String = ""
-    dynamic var length: Int? = -1
-    dynamic var rating: Int? = -1
+    var length: Int? = -1
+    var rating: Int? = -1
     dynamic var notes: String? = ""
     dynamic var cost: Float = -1
     
-    dynamic var startTime: Int64? = 0
-    dynamic var endTime: Int64? = 0
+    var startTime: Int64? = 0
+    var endTime: Int64? = 0
     
     dynamic var creationTime: Int64 = 0
     
@@ -107,7 +107,7 @@ var MASSAGE_LENGTHS: [Int] = [
             self.location = location
         }
         
-        if let length = appointmentData["length"] as? Int, length != -1 {
+        if let length = appointmentData["length"] as? Int, length > 0 {
             self.length = length
         }
         

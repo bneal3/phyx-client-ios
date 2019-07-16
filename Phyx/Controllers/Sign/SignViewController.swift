@@ -108,9 +108,7 @@ class SignViewController: UIViewController {
         confirmField.tag = 3
         
         calendarPopup.selectButton.addTarget(self, action: #selector(setSelectedDate), for: .touchUpInside)
-        
-        termsLabel.text = "By signing up, you agree to the Terms of Service"
-        
+                
         let tapGestureTerms = UITapGestureRecognizer(target: self, action: #selector(clickedTerms))
         termsLabel.addGestureRecognizer(tapGestureTerms)
     }

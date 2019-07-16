@@ -37,9 +37,10 @@ class AppointmentConfirmationViewController: UIViewController, STPAddCardViewCon
     @IBOutlet weak var costLabel: UILabel!
     
     var paymentSucceeded: Bool!
-    var amount: Int! = 100
+    var amount: Int!
+    var extensionIndex: Int = 0
     
-    var  notesPlaceholder = "Anything you want the contractor to know."
+    var notesPlaceholder = "Anything you want the contractor to know."
     
     // fileprivate var applePayResult: Result<String> = Result.canceled
     
@@ -129,9 +130,12 @@ class AppointmentConfirmationViewController: UIViewController, STPAddCardViewCon
             lengthLabel.text = "\(String(AppointmentData.shared().getLength()!)) minutes"
             
             addTimeBtn.isHidden = false
+            
+            var massage = MASSAGES.first(where: { $0["serviceId"] as! Int == appointment.service })
+            amount = massage!["price"] as! Int
         } else {
             AppointmentData.shared().setLength(length: nil)
-            if let length = AppointmentData.shared().getLength() {
+            if let length = AppointmentData.shared().getLength(), length > 0 {
                 lengthLabel.text = "\(String(length)) minutes"
             } else {
                 lengthLabel.text = ""
@@ -139,9 +143,17 @@ class AppointmentConfirmationViewController: UIViewController, STPAddCardViewCon
             
             addTimeBtn.isHidden = true
             removeTimeBtn.isHidden = true
+            
+            var service = SERVICES.first(where: {
+                if let serviceId = $0["serviceId"] as? Int {
+                    return appointment.service == serviceId
+                }
+                return false
+            })
+            amount = service!["price"] as! Int
         }
         
-        costLabel.text = "$\(Double(amount / 100).rounded(toPlaces: 2))"
+        costLabel.text = "$\(amount / 100).00"
         
     }
     
@@ -157,6 +169,10 @@ class AppointmentConfirmationViewController: UIViewController, STPAddCardViewCon
         AppointmentData.shared().setLength(length: AppointmentData.shared().getLength()! - 30)
         lengthLabel.text = "\(String(AppointmentData.shared().getLength()!)) minutes"
         
+        extensionIndex -= 1
+        amount = MASSAGE_EXTENSIONS[extensionIndex]
+        costLabel.text = "$\(amount / 100).00"
+        
         if AppointmentData.shared().getLength()! == 30 {
             removeTimeBtn.isHidden = true
         }
@@ -169,6 +185,10 @@ class AppointmentConfirmationViewController: UIViewController, STPAddCardViewCon
     @IBAction func addTimeTapped(_ sender: Any) {
         AppointmentData.shared().setLength(length: AppointmentData.shared().getLength()! + 30)
         lengthLabel.text = "\(String(AppointmentData.shared().getLength()!)) minutes"
+        
+        extensionIndex += 1
+        amount = MASSAGE_EXTENSIONS[extensionIndex]
+        costLabel.text = "$\(amount / 100).00"
 
         if AppointmentData.shared().getLength()! == 120 {
             addTimeBtn.isHidden = true
@@ -177,6 +197,7 @@ class AppointmentConfirmationViewController: UIViewController, STPAddCardViewCon
         if AppointmentData.shared().getLength()! > 30 {
             removeTimeBtn.isHidden = false
         }
+        
     }
     
     @IBAction func passTapped(_ sender: Any) {

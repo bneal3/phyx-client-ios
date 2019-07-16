@@ -115,13 +115,14 @@ class SessionViewController: UIViewController, STPAddCardViewControllerDelegate 
         contractorAvatar.layer.masksToBounds = true
         contractorAvatar.layer.cornerRadius = contractorAvatar.frame.width / 2
         
-        if let length = appointment.length {
+        if let length = appointment.length, length > 0 {
+            print(length)
             self.lengthLabel.text = "\(String(length)) minutes"
             if length >= 120 {
                 addTimeBtn.isHidden = true
             }
         } else {
-            self.lengthLabel.text = "~\(String(AppointmentData.shared().getLength()!)) minutes"
+            self.lengthLabel.text = ""
         }
         
         if let contractorId = appointment.contractorId, contractorId != "" {
@@ -237,7 +238,7 @@ class SessionViewController: UIViewController, STPAddCardViewControllerDelegate 
         
         dialogViewController.closeBlock = {
             self.dismissDialogViewController(LSAnimationPattern.fadeInOut)
-            self.navigationController?.popToRootViewController(animated: true)
+            self.navigationController?.popViewController(animated: true)
         }
         presentDialogViewController(dialogViewController, animationPattern: LSAnimationPattern.fadeInOut)
     }
